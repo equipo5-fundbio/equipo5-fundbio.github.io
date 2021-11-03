@@ -5,6 +5,13 @@ WindowManager:
     DataReadingWindow:
     DataHistoryWindow:
 
+<ItemSelect>:
+    on_release: root.setter(check)
+
+    CheckboxLeftWidget:
+        id: check
+        group: "check"
+
 <MDTextField>:
     size_hint_x: 0.7
     width: 300
@@ -560,20 +567,25 @@ WindowManager:
                 markup: True
 
             MDFillRoundFlatButton:
-                text: "[font=Candara]Iniciar Test[/font]"
+                id: establish_connection_button
+                text: "[font=Candara]Establecer conexión[/font]"
                 markup: True
                 font_size: 16
                 pos_hint: {"center_x": 0.5}
                 md_bg_color: app.theme_cls.primary_dark
                 padding_y: 50
-            
+                on_press: root.start_connection()
+
             MDFillRoundFlatButton:
-                text: "[font=Candara]Terminar Test[/font]"
+                id: start_test_button
+                text: "[font=Candara]Iniciar Test[/font]"
+                disabled: True
                 markup: True
                 font_size: 16
                 pos_hint: {"center_x": 0.5}
                 md_bg_color: app.theme_cls.primary_dark
                 padding_y: 50
+                on_press: root.start_test()
             
             MDLabel:
                 size_hint_y: None

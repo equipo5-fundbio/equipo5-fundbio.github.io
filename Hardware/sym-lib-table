@@ -1,0 +1,10 @@
+(sym_lib_table
+  (lib (name EYR_CircuitosIntegrados)(type Legacy)(uri C:/Users/eduma/Downloads/KiCad_Libraries-master/Libraries/EYR_CircuitosIntegrados.lib)(options "")(descr ""))
+  (lib (name EYR_Conectores)(type Legacy)(uri C:/Users/eduma/Downloads/KiCad_Libraries-master/Libraries/EYR_Conectores.lib)(options "")(descr ""))
+  (lib (name EYR_Microchip)(type Legacy)(uri C:/Users/eduma/Downloads/KiCad_Libraries-master/Libraries/EYR_Microchip.lib)(options "")(descr ""))
+  (lib (name EYR_Modulos)(type Legacy)(uri C:/Users/eduma/Downloads/KiCad_Libraries-master/Libraries/EYR_Modulos.lib)(options "")(descr ""))
+  (lib (name EYR_Regulators)(type Legacy)(uri C:/Users/eduma/Downloads/KiCad_Libraries-master/Libraries/EYR_Regulators.lib)(options "")(descr ""))
+  (lib (name EYR_Switches)(type Legacy)(uri C:/Users/eduma/Downloads/KiCad_Libraries-master/Libraries/EYR_Switches.lib)(options "")(descr ""))
+  (lib (name EYR_Transistores)(type Legacy)(uri C:/Users/eduma/Downloads/KiCad_Libraries-master/Libraries/EYR_Transistores.lib)(options "")(descr ""))
+  (lib (name Fundbio-rescue)(type Legacy)(uri ${KIPRJMOD}/Fundbio-rescue.lib)(options "")(descr ""))
+)

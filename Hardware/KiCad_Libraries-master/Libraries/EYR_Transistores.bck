@@ -1,0 +1,15 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP FDS4435
+D -30V Vds, -8.8A Id, P-channel MOSFET, TO-252-2
+K P-Channel Switching MOSFET
+F https://www.mouser.com/ds/2/149/FDS4435-1008306.pdf
+$ENDCMP
+#
+$CMP IPD600N25N3G
+D 250V Vds, 25A Id, N-channel MOSFET, TO-252-2
+K N-Channel Switching MOSFET
+F https://www.infineon.com/dgdl/Infineon-IPD600N25N3G_-DS-v02_03-en.pdf?fileId=db3a3043243b5f17012496b03c67195b
+$ENDCMP
+#
+#End Doc Library

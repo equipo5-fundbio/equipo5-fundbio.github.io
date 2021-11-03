@@ -1,0 +1,12 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP EK-TM4C123GXL
+D TivaC TM4C123G LaunchPad
+$ENDCMP
+#
+$CMP HC-05
+D Modulo bluetooth HC-05
+K hc-05
+$ENDCMP
+#
+#End Doc Library

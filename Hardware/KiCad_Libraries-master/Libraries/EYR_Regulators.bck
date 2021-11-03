@@ -1,0 +1,15 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP uA78M05
+D µA78Mxx Positive-Voltage Regulators
+K Voltage Regulator Positive
+F http://www.ti.com/lit/ds/symlink/ua78.pdf
+$ENDCMP
+#
+$CMP uA78M33
+D µA78Mxx Positive-Voltage Regulators
+K Voltage Regulator Positive
+F http://www.ti.com/lit/ds/symlink/ua78.pdf
+$ENDCMP
+#
+#End Doc Library

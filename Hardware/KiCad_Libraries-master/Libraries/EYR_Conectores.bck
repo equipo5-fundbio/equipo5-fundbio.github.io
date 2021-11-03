@@ -1,0 +1,33 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP Jack_Alim
+D DC Jack
+K DC power jack connector
+F ~
+$ENDCMP
+#
+$CMP Screw_Terminal_01x02
+D Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)
+K screw terminal
+F ~
+$ENDCMP
+#
+$CMP Screw_Terminal_01x03
+D Generic screw terminal, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)
+K screw terminal
+F ~
+$ENDCMP
+#
+$CMP Screw_Terminal_01x04
+D Generic screw terminal, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)
+K screw terminal
+F ~
+$ENDCMP
+#
+$CMP dsPIC30F4013
+D 40MIPS, 128k Flash, 16k SRAM, ECAN, Audio DAC
+K 16-bit Digital Signal Controller Microchip dsPIC
+F http://ww1.microchip.com/downloads/en/DeviceDoc/70292G.pdf
+$ENDCMP
+#
+#End Doc Library

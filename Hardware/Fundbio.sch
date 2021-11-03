@@ -1,0 +1,483 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Fundbio-rescue:HC-05-EYR_Modulos U4
+U 1 1 61740D11
+P 4200 4850
+F 0 "U4" H 4200 5737 60  0000 C CNN
+F 1 "HC-05" H 4200 5631 60  0000 C CNN
+F 2 "" H 3750 4650 60  0001 C CNN
+F 3 "" H 3750 4650 60  0001 C CNN
+	1    4200 4850
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Sensor_Pressure:MPXA6115A U2
+U 1 1 6174843C
+P 6100 1700
+F 0 "U2" V 5533 1700 50  0000 C CNN
+F 1 "Sensor" V 5624 1700 50  0000 C CNN
+F 2 "" H 5600 1350 50  0001 C CNN
+F 3 "http://www.nxp.com/files/sensors/doc/data_sheet/MPXA6115A.pdf" H 6100 2300 50  0001 C CNN
+	1    6100 1700
+	0    -1   1    0   
+$EndComp
+$Comp
+L power:Earth #PWR?
+U 1 1 61778FE4
+P 7050 3750
+F 0 "#PWR?" H 7050 3500 50  0001 C CNN
+F 1 "Earth" H 7050 3600 50  0001 C CNN
+F 2 "" H 7050 3750 50  0001 C CNN
+F 3 "~" H 7050 3750 50  0001 C CNN
+	1    7050 3750
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:Earth #PWR?
+U 1 1 61779BE4
+P 6550 1900
+F 0 "#PWR?" H 6550 1650 50  0001 C CNN
+F 1 "Earth" H 6550 1750 50  0001 C CNN
+F 2 "" H 6550 1900 50  0001 C CNN
+F 3 "~" H 6550 1900 50  0001 C CNN
+	1    6550 1900
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:Earth #PWR?
+U 1 1 6177A285
+P 5450 1900
+F 0 "#PWR?" H 5450 1650 50  0001 C CNN
+F 1 "Earth" H 5450 1750 50  0001 C CNN
+F 2 "" H 5450 1900 50  0001 C CNN
+F 3 "~" H 5450 1900 50  0001 C CNN
+	1    5450 1900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R2
+U 1 1 61783F54
+P 5650 1250
+F 0 "R2" H 5720 1296 50  0000 L CNN
+F 1 "10k" H 5720 1205 50  0000 L CNN
+F 2 "" V 5580 1250 50  0001 C CNN
+F 3 "~" H 5650 1250 50  0001 C CNN
+	1    5650 1250
+	1    0    0    -1  
+$EndComp
+$Comp
+L Sensor_Pressure:MPXA6115A U1
+U 1 1 617487E0
+P 5050 1700
+F 0 "U1" V 4483 1700 50  0000 C CNN
+F 1 "Sensor" V 4574 1700 50  0000 C CNN
+F 2 "" H 4550 1350 50  0001 C CNN
+F 3 "http://www.nxp.com/files/sensors/doc/data_sheet/MPXA6115A.pdf" H 5050 2300 50  0001 C CNN
+	1    5050 1700
+	0    -1   1    0   
+$EndComp
+$Comp
+L Device:R R1
+U 1 1 6179B2AE
+P 4600 1700
+F 0 "R1" V 4807 1700 50  0000 C CNN
+F 1 "10k" V 4716 1700 50  0000 C CNN
+F 2 "" V 4530 1700 50  0001 C CNN
+F 3 "~" H 4600 1700 50  0001 C CNN
+	1    4600 1700
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:Earth #PWR?
+U 1 1 617DBBE6
+P 5250 5600
+F 0 "#PWR?" H 5250 5350 50  0001 C CNN
+F 1 "Earth" H 5250 5450 50  0001 C CNN
+F 2 "" H 5250 5600 50  0001 C CNN
+F 3 "~" H 5250 5600 50  0001 C CNN
+	1    5250 5600
+	1    0    0    -1  
+$EndComp
+$Comp
+L MCU_Module:Arduino_Nano_v3.x A1
+U 1 1 6173D4AF
+P 5850 3500
+F 0 "A1" V 5896 2456 50  0000 R CNN
+F 1 "Arduino_Nano_v3.x" V 5805 2456 50  0000 R CNN
+F 2 "Module:Arduino_Nano" H 5850 3500 50  0001 C CIN
+F 3 "http://www.mouser.com/pdfdocs/Gravitech_Arduino_Nano3_0.pdf" H 5850 3500 50  0001 C CNN
+	1    5850 3500
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	5850 2550 5050 2550
+Wire Wire Line
+	5050 2550 5050 2100
+Wire Wire Line
+	6100 2100 6100 2550
+Wire Wire Line
+	6100 2550 5950 2550
+Wire Wire Line
+	7150 2100 7150 2550
+Wire Wire Line
+	7150 2550 6200 2550
+Wire Wire Line
+	6200 2550 6200 2650
+Wire Wire Line
+	6200 2650 6050 2650
+Wire Wire Line
+	6400 1700 6550 1700
+Wire Wire Line
+	6550 1700 6550 1900
+Wire Wire Line
+	5350 1700 5450 1700
+Wire Wire Line
+	5450 1700 5450 1900
+Wire Wire Line
+	5800 1700 5650 1700
+Wire Wire Line
+	5650 1700 5650 1400
+Wire Wire Line
+	4850 3300 4250 3300
+Wire Wire Line
+	4250 1950 4250 3300
+Wire Wire Line
+	5650 1000 4250 1000
+Wire Wire Line
+	4250 1000 4250 1950
+Connection ~ 4250 1950
+Wire Wire Line
+	5650 1000 5650 1100
+Wire Wire Line
+	4050 1950 4250 1950
+Wire Wire Line
+	4450 1700 4450 1950
+Wire Wire Line
+	4450 1950 4250 1950
+Wire Wire Line
+	4050 1950 4050 900 
+Wire Wire Line
+	4050 900  6650 900 
+Wire Wire Line
+	6650 900  6650 1100
+Wire Wire Line
+	6850 3500 7050 3500
+Wire Wire Line
+	7050 3500 7050 3750
+Wire Wire Line
+	5050 5450 5250 5450
+Wire Wire Line
+	5250 5450 5250 5600
+Wire Wire Line
+	6050 2650 6050 3000
+Wire Wire Line
+	5950 2550 5950 3000
+Wire Wire Line
+	5850 3000 5850 2550
+Wire Wire Line
+	6250 4000 6250 4250
+Wire Wire Line
+	6250 4250 5050 4250
+Wire Wire Line
+	6350 4000 6350 4350
+Wire Wire Line
+	6350 4350 5050 4350
+Wire Wire Line
+	6850 1700 6650 1700
+Wire Wire Line
+	6650 1700 6650 1400
+$Comp
+L Sensor_Pressure:MPXA6115A U3
+U 1 1 61746487
+P 7150 1700
+F 0 "U3" V 6583 1700 50  0000 C CNN
+F 1 "Sensor" V 6674 1700 50  0000 C CNN
+F 2 "" H 6650 1350 50  0001 C CNN
+F 3 "http://www.nxp.com/files/sensors/doc/data_sheet/MPXA6115A.pdf" H 7150 2300 50  0001 C CNN
+	1    7150 1700
+	0    -1   1    0   
+$EndComp
+$Comp
+L Device:R R3
+U 1 1 61785023
+P 6650 1250
+F 0 "R3" H 6720 1296 50  0000 L CNN
+F 1 "10k" H 6720 1205 50  0000 L CNN
+F 2 "" V 6580 1250 50  0001 C CNN
+F 3 "~" H 6650 1250 50  0001 C CNN
+	1    6650 1250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5450 4000 5450 5300
+Wire Wire Line
+	5550 4000 5550 4900
+Wire Wire Line
+	5650 4550 5650 4000
+Wire Wire Line
+	8600 4350 8600 4200
+$Comp
+L power:Earth #PWR?
+U 1 1 61779593
+P 7700 1900
+F 0 "#PWR?" H 7700 1650 50  0001 C CNN
+F 1 "Earth" H 7700 1750 50  0001 C CNN
+F 2 "" H 7700 1900 50  0001 C CNN
+F 3 "~" H 7700 1900 50  0001 C CNN
+	1    7700 1900
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:Earth #PWR?
+U 1 1 6186A00B
+P 7700 1900
+F 0 "#PWR?" H 7700 1650 50  0001 C CNN
+F 1 "Earth" H 7700 1750 50  0001 C CNN
+F 2 "" H 7700 1900 50  0001 C CNN
+F 3 "~" H 7700 1900 50  0001 C CNN
+	1    7700 1900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7450 1700 7700 1700
+Wire Wire Line
+	7700 1700 7700 1900
+Wire Wire Line
+	8600 5500 8600 4750
+Wire Wire Line
+	8000 5500 8000 5100
+Wire Wire Line
+	8600 6000 8600 6050
+Wire Wire Line
+	8000 6000 8000 6050
+Wire Wire Line
+	7500 6050 7500 6000
+$Comp
+L Motor:Motor_DC M1
+U 1 1 61880A19
+P 7500 5700
+F 0 "M1" H 7658 5696 50  0000 L CNN
+F 1 "Motor" H 7658 5605 50  0000 L CNN
+F 2 "" H 7500 5610 50  0001 C CNN
+F 3 "~" H 7500 5610 50  0001 C CNN
+	1    7500 5700
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:Earth #PWR?
+U 1 1 6186CC5B
+P 7500 6050
+F 0 "#PWR?" H 7500 5800 50  0001 C CNN
+F 1 "Earth" H 7500 5900 50  0001 C CNN
+F 2 "" H 7500 6050 50  0001 C CNN
+F 3 "~" H 7500 6050 50  0001 C CNN
+	1    7500 6050
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:Earth #PWR?
+U 1 1 6186CC61
+P 7500 6050
+F 0 "#PWR?" H 7500 5800 50  0001 C CNN
+F 1 "Earth" H 7500 5900 50  0001 C CNN
+F 2 "" H 7500 6050 50  0001 C CNN
+F 3 "~" H 7500 6050 50  0001 C CNN
+	1    7500 6050
+	1    0    0    -1  
+$EndComp
+$Comp
+L Motor:Motor_DC M3
+U 1 1 61878914
+P 8600 5700
+F 0 "M3" H 8758 5696 50  0000 L CNN
+F 1 "Motor" H 8758 5605 50  0000 L CNN
+F 2 "" H 8600 5610 50  0001 C CNN
+F 3 "~" H 8600 5610 50  0001 C CNN
+	1    8600 5700
+	1    0    0    -1  
+$EndComp
+$Comp
+L Motor:Motor_DC M2
+U 1 1 61877BB6
+P 8000 5700
+F 0 "M2" H 8158 5696 50  0000 L CNN
+F 1 "Motor" H 8158 5605 50  0000 L CNN
+F 2 "" H 8000 5610 50  0001 C CNN
+F 3 "~" H 8000 5610 50  0001 C CNN
+	1    8000 5700
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:Earth #PWR?
+U 1 1 6187573D
+P 8600 6050
+F 0 "#PWR?" H 8600 5800 50  0001 C CNN
+F 1 "Earth" H 8600 5900 50  0001 C CNN
+F 2 "" H 8600 6050 50  0001 C CNN
+F 3 "~" H 8600 6050 50  0001 C CNN
+	1    8600 6050
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:Earth #PWR?
+U 1 1 61875737
+P 8600 6050
+F 0 "#PWR?" H 8600 5800 50  0001 C CNN
+F 1 "Earth" H 8600 5900 50  0001 C CNN
+F 2 "" H 8600 6050 50  0001 C CNN
+F 3 "~" H 8600 6050 50  0001 C CNN
+	1    8600 6050
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:Earth #PWR?
+U 1 1 61874345
+P 8000 6050
+F 0 "#PWR?" H 8000 5800 50  0001 C CNN
+F 1 "Earth" H 8000 5900 50  0001 C CNN
+F 2 "" H 8000 6050 50  0001 C CNN
+F 3 "~" H 8000 6050 50  0001 C CNN
+	1    8000 6050
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:Earth #PWR?
+U 1 1 6187433F
+P 8000 6050
+F 0 "#PWR?" H 8000 5800 50  0001 C CNN
+F 1 "Earth" H 8000 5900 50  0001 C CNN
+F 2 "" H 8000 6050 50  0001 C CNN
+F 3 "~" H 8000 6050 50  0001 C CNN
+	1    8000 6050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5650 4550 7600 4550
+Wire Wire Line
+	7900 4550 8300 4550
+$Comp
+L Device:R R6
+U 1 1 6184D37B
+P 7750 4550
+F 0 "R6" V 7543 4550 50  0000 C CNN
+F 1 "330" V 7634 4550 50  0000 C CNN
+F 2 "" V 7680 4550 50  0001 C CNN
+F 3 "~" H 7750 4550 50  0001 C CNN
+	1    7750 4550
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	7500 4200 7500 5100
+Wire Wire Line
+	8000 4700 8000 4200
+Wire Wire Line
+	7250 4900 7700 4900
+Wire Wire Line
+	5550 4900 6950 4900
+Wire Wire Line
+	6700 5300 7200 5300
+Wire Wire Line
+	5450 5300 6400 5300
+$Comp
+L Device:R R5
+U 1 1 6184C7BF
+P 7100 4900
+F 0 "R5" V 6893 4900 50  0000 C CNN
+F 1 "330" V 6984 4900 50  0000 C CNN
+F 2 "" V 7030 4900 50  0001 C CNN
+F 3 "~" H 7100 4900 50  0001 C CNN
+	1    7100 4900
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R4
+U 1 1 61846CDC
+P 6550 5300
+F 0 "R4" V 6343 5300 50  0000 C CNN
+F 1 "330" V 6434 5300 50  0000 C CNN
+F 2 "" V 6480 5300 50  0001 C CNN
+F 3 "~" H 6550 5300 50  0001 C CNN
+	1    6550 5300
+	0    1    1    0   
+$EndComp
+$Comp
+L Transistor_BJT:2N2219 Q3
+U 1 1 6182AAB9
+P 8500 4550
+F 0 "Q3" H 8691 4596 50  0000 L CNN
+F 1 "Transistor NPN" H 8691 4505 50  0000 L CNN
+F 2 "Package_TO_SOT_THT:TO-39-3" H 8700 4475 50  0001 L CIN
+F 3 "http://www.onsemi.com/pub_link/Collateral/2N2219-D.PDF" H 8500 4550 50  0001 L CNN
+	1    8500 4550
+	1    0    0    -1  
+$EndComp
+$Comp
+L Transistor_BJT:2N2219 Q2
+U 1 1 61829BCF
+P 7900 4900
+F 0 "Q2" H 8091 4946 50  0000 L CNN
+F 1 "Transistor NPN" H 8091 4855 50  0000 L CNN
+F 2 "Package_TO_SOT_THT:TO-39-3" H 8100 4825 50  0001 L CIN
+F 3 "http://www.onsemi.com/pub_link/Collateral/2N2219-D.PDF" H 7900 4900 50  0001 L CNN
+	1    7900 4900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Transistor_BJT:2N2219 Q1
+U 1 1 61826C07
+P 7400 5300
+F 0 "Q1" H 7591 5346 50  0000 L CNN
+F 1 "Transistor NPN" H 7591 5255 50  0000 L CNN
+F 2 "Package_TO_SOT_THT:TO-39-3" H 7600 5225 50  0001 L CIN
+F 3 "http://www.onsemi.com/pub_link/Collateral/2N2219-D.PDF" H 7400 5300 50  0001 L CNN
+	1    7400 5300
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+9V #PWR?
+U 1 1 6185AE86
+P 7500 4200
+F 0 "#PWR?" H 7500 4050 50  0001 C CNN
+F 1 "+9V" H 7515 4373 50  0000 C CNN
+F 2 "" H 7500 4200 50  0001 C CNN
+F 3 "" H 7500 4200 50  0001 C CNN
+	1    7500 4200
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+9V #PWR?
+U 1 1 61859BFE
+P 8000 4200
+F 0 "#PWR?" H 8000 4050 50  0001 C CNN
+F 1 "+9V" H 8015 4373 50  0000 C CNN
+F 2 "" H 8000 4200 50  0001 C CNN
+F 3 "" H 8000 4200 50  0001 C CNN
+	1    8000 4200
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+9V #PWR?
+U 1 1 61857210
+P 8600 4200
+F 0 "#PWR?" H 8600 4050 50  0001 C CNN
+F 1 "+9V" H 8615 4373 50  0000 C CNN
+F 2 "" H 8600 4200 50  0001 C CNN
+F 3 "" H 8600 4200 50  0001 C CNN
+	1    8600 4200
+	1    0    0    -1  
+$EndComp
+$EndSCHEMATC
