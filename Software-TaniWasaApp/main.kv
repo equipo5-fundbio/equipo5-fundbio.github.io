@@ -5,7 +5,7 @@ WindowManager:
     DataReadingWindow:
     DataHistoryWindow:
 
-<ItemSelect>:
+<ConnectItemSelect>:
     on_release: root.setter(check)
 
     CheckboxLeftWidget:
@@ -47,8 +47,8 @@ WindowManager:
         spacing: 30
 
         MDTextField:
-            id: user_login_email
-            hint_text: "Correo electrónico"
+            id: user_login_dni
+            hint_text: "Número de DNI"
             icon_right: "account"
             helper_text: "Este campo es obligatorio"
 
@@ -66,8 +66,9 @@ WindowManager:
             pos_hint: {"center_x": 0.5}
             md_bg_color: app.theme_cls.primary_dark
             on_release: 
-                app.root.current = "main_window"
-                app.root.get_screen("login_window").manager.transition.direction = "left"
+                root.login()
+                #app.root.current = "main_window"
+                #app.root.get_screen("login_window").manager.transition.direction = "left"
         
         Widget:
             size_hint_y: None
@@ -98,24 +99,39 @@ WindowManager:
 
                 MDTextField:
                     id: user_name
-                    hint_text: "Nombre Completo"
+                    hint_text: "Nombres"
+                    helper_text: "Este campo es obligatorio"
+                
+                MDTextField:
+                    id: user_last_name
+                    hint_text: "Apellidos"
                     helper_text: "Este campo es obligatorio"
 
                 MDTextField:
-                    id: user_register_email
+                    id: user_dni
+                    hint_text: "Número de DNI"
+                    helper_text: "Este campo es obligatorio"
+
+                MDTextField:
+                    id: user_medic_dni
+                    hint_text: "Número de DNI de su médico asignado"
+                    helper_text: "Este campo es obligatorio"
+
+                MDTextField:
+                    id: user_email
                     hint_text: "Correo electrónico"
                     icon_right: "account"
                     helper_text: "Este campo es obligatorio"
 
                 MDTextField:
-                    id: user_register_password
+                    id: user_password
                     hint_text: "Contraseña"
                     icon_right: "eye-off"
                     password: True
                     helper_text: "Este campo es obligatorio"
                 
                 MDTextField:
-                    id: user_register_password_confirmation
+                    id: user_password_confirmation
                     hint_text: "Repetir Contraseña"
                     icon_right: "eye-off"
                     password: True
@@ -173,18 +189,97 @@ WindowManager:
             pos_hint: {"center_x": 0.5}
             md_bg_color: app.theme_cls.primary_dark
             on_release: 
-                app.root.current = "main_window"
-                app.root.get_screen("login_window").manager.transition.direction = "left"
+                root.register()
+                #app.root.current = "main_window"
+                #app.root.get_screen("login_window").manager.transition.direction = "left"
         
         Widget:
             size_hint_y: None
             height: 10
+
+<RegisterMedicTab>:
+
+    BoxLayout:
+        orientation:"vertical"
+        spacing: 20
+
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+            size_hint: (1, None)
+            size: Window.width, Window.height
+
+            GridLayout:
+                cols:1
+                spacing: 20
+                padding: 70
+                size_hint_y: None
+                height: self.minimum_height
+
+                Widget:
+                    size_hint_y: None
+                    height: 200
+
+                MDTextField:
+                    id: medic_name
+                    hint_text: "Nombres"
+                    helper_text: "Este campo es obligatorio"
+                
+                MDTextField:
+                    id: medic_last_name
+                    hint_text: "Apellidos"
+                    helper_text: "Este campo es obligatorio"
+
+                MDTextField:
+                    id: medic_dni
+                    hint_text: "Número de DNI"
+                    helper_text: "Este campo es obligatorio"
+
+                MDTextField:
+                    id: medic_email
+                    hint_text: "Correo electrónico"
+                    icon_right: "account"
+                    helper_text: "Este campo es obligatorio"
+
+                MDTextField:
+                    id: medic_password
+                    hint_text: "Contraseña"
+                    icon_right: "eye-off"
+                    password: True
+                    helper_text: "Este campo es obligatorio"
+                
+                MDTextField:
+                    id: medic_password_confirmation
+                    hint_text: "Repetir Contraseña"
+                    icon_right: "eye-off"
+                    password: True
+                    helper_text: "Este campo es obligatorio"
+
+                MDTextField:
+                    id: medic_phone_number
+                    hint_text: "Número de teléfono"
+                    required: False
+
+        MDFillRoundFlatButton:
+            text: "[font=Candara]Registrarse[/font]"
+            markup: True
+            font_size: 16
+            pos_hint: {"center_x": 0.5}
+            md_bg_color: app.theme_cls.primary_dark
+            on_release: 
+                root.register_medic()
+                #app.root.current = "main_window"
+                #app.root.get_screen("login_window").manager.transition.direction = "left"
         
+        Widget:
+            size_hint_y: None
+            height: 10
 
 <MainWindow>:
     name: "main_window"
 
     BoxLayout:
+        id: main_box
         orientation:"vertical"
 
         MDToolbar:
@@ -194,6 +289,7 @@ WindowManager:
             #left_action_items: [["menu", lambda x: app.callback()]]
 
         MDBottomNavigation:
+            id: main_nav
 
             MDBottomNavigationItem:
                 name: 'main_screen'
@@ -234,8 +330,9 @@ WindowManager:
                         pos_hint: {"center_x": 0.5}
                         md_bg_color: app.theme_cls.primary_dark
                         on_release: 
-                            app.root.current = "data_history_window"
-                            app.root.get_screen("login_window").manager.transition.direction = "left"
+                            root.select_sensor_graphs()
+                            #app.root.current = "data_history_window"
+                            #app.root.get_screen("login_window").manager.transition.direction = "left"
                     
                     Widget:
                         size_hint_y: None
@@ -273,6 +370,7 @@ WindowManager:
                             elevation: 15
                         
                             MDLabel:
+                                id: first_not_date
                                 text: "Hoy"
                                 theme_text_color: "Secondary"
                                 adaptive_height: True
@@ -281,6 +379,7 @@ WindowManager:
                                 height: "1dp"
 
                             MDLabel:
+                                id: first_not_label
                                 text: "Dr. Luis Eduardo Beingolea Cruz solicita una cita médica presencial"
                         
                         MDCard:
@@ -291,6 +390,7 @@ WindowManager:
                             elevation: 15
                         
                             MDLabel:
+                                id: second_not_date
                                 text: "Domingo 24 de octubre"
                                 theme_text_color: "Secondary"
                                 adaptive_height: True
@@ -299,6 +399,7 @@ WindowManager:
                                 height: "1dp"
 
                             MDLabel:
+                                id: second_not_label
                                 text: "Dr. Luis Eduardo Beingolea Cruz:\nRetírese la órtesis y vuelva en 5 horas"
                             
                         MDCard:
@@ -309,6 +410,7 @@ WindowManager:
                             elevation: 15
                         
                             MDLabel:
+                                id: third_not_date
                                 text: "Miércoles 20 de octubre"
                                 theme_text_color: "Secondary"
                                 adaptive_height: True
@@ -317,9 +419,11 @@ WindowManager:
                                 height: "1dp"
 
                             MDLabel:
+                                id: second_not_label
                                 text: "Dr. Luis Eduardo Beingolea Cruz:\nRealice nuevamente el 'test de lectura de datos'"
             
             MDBottomNavigationItem:
+                id: profile
                 name: 'profile_screen'
                 text: "Perfil"
                 markup: True
@@ -327,16 +431,19 @@ WindowManager:
                 on_tab_release: main_toolbar.title = "[font=Candara]Perfil[/font]"
             
                 BoxLayout:
+                    id: profile_box
                     orientation:"vertical"
                     spacing: 20
 
                     ScrollView:
+                        id: profile_scroll
                         do_scroll_x: False
                         do_scroll_y: True
                         size_hint: (1, None)
                         size: Window.width, Window.height
 
                         GridLayout:
+                            id: profile_grid
                             cols:1
                             spacing: 20
                             padding: 70
@@ -348,7 +455,8 @@ WindowManager:
                                 height: 200
                             
                             MDLabel:
-                                text: "[font=Candara]Hola José,[/font]"
+                                id: welcome_label
+                                text: "[font=Candara]Hola,[/font]"
                                 markup: True
                                 size_hint_y: None
                                 font_size: 35
@@ -363,56 +471,63 @@ WindowManager:
 
                             MDTextField:
                                 id: user_name
-                                hint_text: "José Chavez Romeo"
-                                helper_text: "Nombre Completo"
+                                hint_text: ""
+                                helper_text: "Nombres"
+                                icon_right: "pencil-outline"
+                                required: False
+                            
+                            MDTextField:
+                                id: user_last_name
+                                hint_text: ""
+                                helper_text: "Apellidos"
                                 icon_right: "pencil-outline"
                                 required: False
 
                             MDTextField:
-                                id: user_register_email
-                                hint_text: "josechavez.upch.pe"
+                                id: user_email
+                                hint_text: ""
                                 helper_text: "Correo electrónico"
                                 icon_right: "pencil-outline"
                                 required: False
 
                             MDTextField:
                                 id: user_phone_number
-                                hint_text: "977 898 193"
+                                hint_text: ""
                                 helper_text: "Número de teléfono"
                                 icon_right: "pencil-outline"
                                 required: False
 
                             MDTextField:
                                 id: user_birth_date
-                                hint_text: "27/02/1993"
+                                hint_text: ""
                                 helper_text: "Fecha de nacimiento"
                                 icon_right: "pencil-outline"
                                 required: False
                             
                             MDTextField:
                                 id: user_sex
-                                hint_text: "Masculino"
+                                hint_text: ""
                                 helper_text: "Sexo biológico"
                                 icon_right: "pencil-outline"
                                 required: False
 
                             MDTextField:
                                 id: user_birth_place
-                                hint_text: "Lima"
+                                hint_text: ""
                                 helper_text: "Lugar de nacimiento"
                                 icon_right: "pencil-outline"
                                 required: False
                             
                             MDTextField:
                                 id: user_weight
-                                hint_text: "70 kg"
+                                hint_text: ""
                                 helper_text: "Indique su peso"
                                 icon_right: "pencil-outline"
                                 required: False
 
                             MDTextField:
                                 id: user_height
-                                hint_text: "175 cm"
+                                hint_text: ""
                                 helper_text: "Indique su altura"
                                 icon_right: "pencil-outline"
                                 required: False
@@ -472,6 +587,7 @@ WindowManager:
                         pos_hint: {"center_x": 0.5}
                         md_bg_color: app.theme_cls.primary_dark
                         padding_y: 50
+                        on_release: root.update_data()
                     
                     Widget:
                         size_hint_y: None
@@ -501,16 +617,19 @@ WindowManager:
                 markup: True
 
             MDFillRoundFlatButton:
+                id: start_treatment_button
                 text: "[font=Candara]Iniciar Tratamiento[/font]"
                 markup: True
+                disabled: True
                 font_size: 16
                 pos_hint: {"center_x": 0.5}
                 md_bg_color: app.theme_cls.primary_dark
                 padding_y: 1
+                on_press: root.start_treatment()
             
             MDTextField:
                 id: force_to_exert
-                hint_text: "... kPa"
+                hint_text: "... N"
                 helper_text: "Presión ejercida"
                 required: False
                 disabled: True
@@ -529,15 +648,10 @@ WindowManager:
                 required: False
                 disabled: True
             
-            MDLabel:
+            Widget:
                 size_hint_y: None
-                text: "[font=Candara]Si desea, añada un comentario[/font]"
-                markup: True
-                halign: "center"
-            
-            MDTextFieldRect:
-                size_hint: 1, None
-                height: "100 dp"
+                height: 150
+                
 
 
         
@@ -586,20 +700,10 @@ WindowManager:
                 md_bg_color: app.theme_cls.primary_dark
                 padding_y: 50
                 on_press: root.start_test()
-            
-            MDLabel:
-                size_hint_y: None
-                text: "[font=Candara]Si desea, añada un comentario[/font]"
-                markup: True
-                halign: "center"
-            
-            MDTextFieldRect:
-                size_hint: 1, None
-                height: "100 dp"
 
             Widget:
                 size_hint_y: None
-                height: 10
+                height: 200
 
 <DataHistoryWindow>:
     name: "data_history_window"
@@ -626,6 +730,7 @@ WindowManager:
                 size_hint_y: .3
 
                 MDLabel:
+                    id: data_history_label
                     text: "Datos de los últimos 30 días"
                     halign: "center"
                     size_hint_y: None
