@@ -11,7 +11,6 @@ from serial_com import SerialCom
 from functools import partial
 import database as db
 
-
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
@@ -23,8 +22,9 @@ from matplotlib.pyplot import figure
 
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.list import TwoLineIconListItem
-from kivymd.uix.button import MDFlatButton
+from kivymd.uix.button import MDFillRoundFlatIconButton, MDFlatButton
 from kivymd.uix.button import MDFillRoundFlatButton
+from kivymd.uix.textfield import MDTextFieldRect
 from kivymd.uix.label import MDLabel
 
 class ConnectItemSelect(TwoLineIconListItem):
@@ -34,7 +34,7 @@ class ConnectItemSelect(TwoLineIconListItem):
         """Establece el ícono correcto y almacena el puerto actual."""
         self.set_icon(instance_check)
         self.set_actual_port()
-    
+
     def set_icon(self, instance_check):
         """Marca la casilla de check con su selección."""
         instance_check.active = True
@@ -74,12 +74,13 @@ class TestDialog(MDDialog):
         self.app = MDApp.get_running_app()
         self.screen = MDApp.get_running_app().root.get_screen("data_reading_window")
         self.screen.enable_buttons_back() # Rehabilitar los botones del diálogo.
-        if self.screen.reception_event:
+        try:
             self.screen.reception_event.cancel() # Terminar bucle de lectura.
+        except AttributeError:
+            pass
         #self.screen.data_list = [20, 16, 14]
         #self.screen.save_data(self.screen.data_list) # Datos de prueba para probar el almacenamiento
-        #self.app.ser_com.arduino_ser.close() # Cerrar la instancia de serial.
-        print("done")
+        self.app.ser_com.arduino_ser.close() # Cerrar la instancia de serial.
         return super().on_pre_dismiss()
 
 class TreatmentDialog(MDDialog):
@@ -98,6 +99,83 @@ class LoginWindow(Screen):
 class MainWindow(Screen):
 
     data_history_dialog = None
+
+    def on_enter(self, *args):
+        self.update_medic_info()
+        self.update_nots()
+        return super().on_enter(*args)
+    
+    def update_medic_info(self):
+        self.app = MDApp.get_running_app()
+        medic_name = self.app.current_medic_data[1] + " " + self.app.current_medic_data[2]
+        medic_email = self.app.current_medic_data[3]
+        medic_phone = self.app.current_medic_data[5]
+        self.ids.medic_name_label.text = f"[b]Nombre Completo:[/b]\n{medic_name}"
+        self.ids.medic_email_label.text = f"[b]Correo electrónico:[/b]\n{medic_email}"
+        self.ids.medic_phone_label.text = f"[b]Teléfono celular:[/b]\n{medic_phone}"
+
+    def update_nots(self):
+        self.app = MDApp.get_running_app()
+        if self.app.is_medic:
+            self.not_label = MDLabel(text="Deje un mensaje para su paciente", height= "15dp")
+            self.not_tf = MDTextFieldRect(height="100dp", size_hint = (1, None))
+            self.not_but = MDFillRoundFlatButton(
+                text="[font=Candara]Guardar[/font]", markup=True,font_size=16)
+            self.ids.not_grid.add_widget(self.not_label)
+            self.ids.not_grid.add_widget(self.not_tf)
+            self.ids.not_grid.add_widget(self.not_but)
+            self.not_but.bind(on_release=self.save_not)
+        
+        self.load_nots()
+        
+    def save_not(self, instance):
+        if self.not_tf.text != "":
+            new_not = self.not_tf.text
+            self.app = MDApp.get_running_app()
+            db_data = self.app.current_user_data
+
+            nots_dict = json.loads(db_data[17])
+            now = datetime.now()
+            now_str = now.strftime("%d/%m/%Y %H:%M:%S")
+
+            if len(nots_dict) < 3:
+                nots_dict[now_str] = new_not
+            else:
+                times_str = nots_dict.keys()
+                times_obj = [datetime.strptime(i, "%d/%m/%Y %H:%M:%S") for i in times_str]
+                min_time = min(times_obj)
+                del nots_dict[min_time.strftime("%d/%m/%Y %H:%M:%S")]
+                nots_dict[now_str] = new_not
+
+            json_str = json.JSONEncoder().encode(nots_dict)
+            self.app.current_user_data[17] = json_str
+            db.edit_patient(*self.app.current_user_data)
+            self.load_nots()
+
+    def load_nots(self):
+        self.app = MDApp.get_running_app()
+        db_data = self.app.current_user_data
+        nots_dict = json.loads(db_data[17])
+        dr_name = self.app.current_medic_data[1]
+        times_str = nots_dict.keys()
+        times_obj = [datetime.strptime(i, "%d/%m/%Y %H:%M:%S") for i in times_str]
+        times_obj.sort
+        ordered_times = [one_time.strftime("%d/%m/%Y %H:%M:%S") for one_time in times_obj]
+        try:
+            self.ids.third_not_date.text = ordered_times[0]
+            self.ids.third_not_label.text = f"Dr. {dr_name}:\n{nots_dict[ordered_times[0]]}"
+        except IndexError:
+            pass
+        try:
+            self.ids.second_not_date.text = ordered_times[1]
+            self.ids.second_not_label.text = f"Dr. {dr_name}:\n{nots_dict[ordered_times[1]]}"
+        except IndexError:
+            pass
+        try:    
+            self.ids.first_not_date.text = ordered_times[2]
+            self.ids.first_not_label.text = f"Dr. {dr_name}:\n{nots_dict[ordered_times[2]]}"
+        except IndexError:
+            pass
 
     def select_sensor_graphs(self):
 
@@ -151,6 +229,7 @@ class MainWindow(Screen):
             self.ids.user_comorbilities.text,
             "",
             "",
+            "",
             ""
         ]
         self.app = MDApp.get_running_app()
@@ -165,6 +244,16 @@ class MainWindow(Screen):
 class TreatmentWindow(Screen):
     
     treatment_dialog = None
+
+    def on_enter(self, *args):
+        self.app = MDApp.get_running_app()
+        db_data = self.app.current_user_data
+
+        pump_pressures = json.loads(db_data[16])
+        self.ids.p1_text_field.hint_text = f"{str(pump_pressures['1'])} kPa"
+        self.ids.p2_text_field.hint_text = f"{str(pump_pressures['2'])} kPa"
+        self.ids.p3_text_field.hint_text = f"{str(pump_pressures['3'])} kPa"
+        return super().on_enter(*args)
 
     def start_treatment(self):
 
@@ -204,21 +293,22 @@ class TreatmentWindow(Screen):
         self.pressure_data = self.get_pressure()
 
         self.app = MDApp.get_running_app()
-        print("Connecting to",self.app.ser_com.actual_port)
+        #print("Connecting to",self.app.ser_com.actual_port)
         self.treatment_dialog.title = "Espere..."
-        #self.app.ser_com.open_and_write(command)
-        #self.app.ser_com.arduino_ser.write(bytes(self.pressure_data,'utf-8'))
+        self.app.ser_com.open_and_write(command)
+        self.app.ser_com.arduino_ser.write(bytes(self.pressure_data,'utf-8'))
         self.reception_event = Clock.schedule_interval(
-            self.data_reception, 0.2) # Iniciar bucle de lectura
+            self.data_reception, 0.1) # Iniciar bucle de lectura
     
     def data_reception(self, *largs):
         """Lectura de una línea de datos."""
-        #self.do_reception = self.app.ser_com.receive_data(data_list)
-        #self.treatment_dialog.title = f"La presión actual es {self.app.ser_com.actual_pressure_val}"
-        #if not self.do_reception:
-            #self.app.ser_com.arduino_ser.close()
-            #self.enable_buttons_back()
-            #return False
+        self.do_reception = self.app.ser_com.receive_data([],save_data=False)
+        self.treatment_dialog.title = f"La presión actual es {self.app.ser_com.actual_pressure_val}"
+        if not self.do_reception:
+            self.app.ser_com.arduino_ser.close()
+            self.enable_buttons_back()
+            self.treatment_dialog.title = "La presión ha sido aplicada, cierre la válvula." 
+            return False
     
     def get_pressure(self):
         self.app = MDApp.get_running_app()
@@ -227,8 +317,26 @@ class TreatmentWindow(Screen):
         pump_pressures = json.loads(db_data[16])
         pump_pressure_data = pump_pressures[str(self.current_pump)]
 
-        return pump_pressure_data
-
+        return str(int(pump_pressure_data))
+    
+    def save_pressure_data(self):
+        self.app = MDApp.get_running_app()
+        db_data = self.app.current_user_data
+        pump_pressures = json.loads(db_data[16])
+        p1 = self.ids.p1_text_field.text
+        p2 = self.ids.p2_text_field.text
+        p3 = self.ids.p3_text_field.text
+        new_press = [p1, p2, p3]
+        for i in range(3):
+            try:
+                p_val = float(new_press[i])
+                pump_pressures[str(i+1)] = p_val
+            except ValueError:
+                pass
+        
+        json_str = json.JSONEncoder().encode(pump_pressures)
+        self.app.current_user_data[16] = json_str
+        db.edit_patient(*self.app.current_user_data)
 
 class DataReadingWindow(Screen):
     """Administrar la ventana de lectura de datos."""
@@ -245,11 +353,6 @@ class DataReadingWindow(Screen):
         ports = self.app.ser_com.port_list
         
         # Datos de prueba (para uso de depuracion):
-        ports = [
-            "COM2 - Communications Port (COM2)",
-            "COM1 - ELTIMA Virtual Serial Port (COM1->COM5)",
-            "COM5 - ELTIMA Virtual Serial Port (COM5->COM1)"
-        ]
 
         self.items_list = []
         self.list_port_items(ports)
@@ -323,23 +426,23 @@ class DataReadingWindow(Screen):
                 self.button_list[i].disabled = True
         
         self.app = MDApp.get_running_app()
-        print("Connecting to",self.app.ser_com.actual_port)
+        #print("Connecting to",self.app.ser_com.actual_port)
         self.test_dialog.title = "Espere mientras se leen los datos..."
-        #self.app.ser_com.open_and_write(command)
-        print("Sending command")
+        self.app.ser_com.open_and_write(command)
+        #print("Sending command")
         self.reception_event = Clock.schedule_interval(
             partial(self.data_reception, self.data_list), 0.2) # Iniciar bucle de lectura
 
     def data_reception(self, data_list, *largs):
         """Lectura de una línea de datos."""
-        print("Reading")
-        #self.do_reception = self.app.ser_com.receive_data(data_list)
-        #if not self.do_reception:
-            #self.app.ser_com.arduino_ser.close()
-            #self.save_data(data_list)
-            #self.enable_buttons_back()
-            #self.test_dialog.title = "Los datos se han almacenado con éxito." 
-            #return False
+        #print("Reading")
+        self.do_reception = self.app.ser_com.receive_data(data_list)
+        if not self.do_reception:
+            self.app.ser_com.arduino_ser.close()
+            self.save_data(data_list)
+            self.enable_buttons_back()
+            self.test_dialog.title = "Los datos se han almacenado con éxito." 
+            return False
     
     def save_data(self, data_list):
         pressure_num = sum(data_list)/(len(data_list))
@@ -369,7 +472,7 @@ class DataHistoryWindow(Screen):
         self.app = MDApp.get_running_app()
 
         current_sensor = self.app.current_sensor_data
-        self.ids.data_history_label.text = f"Gráfica fuerza vs tiempo del punto{current_sensor+1}"
+        self.ids.data_history_label.text = f"Gráfica presión vs tiempo del punto{current_sensor+1}"
         db_data = self.app.current_user_data
         sensor_data_list = json.loads(db_data[15])
         sensor_data = sensor_data_list[current_sensor]
@@ -384,7 +487,7 @@ class DataHistoryWindow(Screen):
         figure(tight_layout=True)
         plt.plot(x, y)
 
-        plt.ylabel("Fuerza ejercida en N")
+        plt.ylabel("Presión en kPa")
         plt.xlabel("Tiempo en días")
 
 class WindowManager(ScreenManager):
@@ -402,26 +505,29 @@ class LoginTab(BoxLayout, MDTabsBase):
         if info != None:
             if pwd == info[4]:
                 self.app = MDApp.get_running_app()
-                self.app.current_user_data = info
-                self.app.current_medic_data = db.medic_info(info[14])
+                self.app.current_user_data = list(info)
+                self.app.current_medic_data = list(db.medic_info(info[14]))
+                self.app.is_medic = False
                 self.app.root.get_screen("login_window").manager.transition.direction = "left"
                 self.app.root.current = "main_window"
             else:
-                print("Contraseña incorrecta")
+                pass
+                #print("Contraseña incorrecta")
         else:
             info = list(db.medic_info(dni)) if isinstance(db.medic_info(dni), Iterable) else None
             if info != None:
                 if pwd == info[4]:
                     self.app = MDApp.get_running_app()
-                    self.app.current_medic_data = info
+                    self.app.current_medic_data = list(info)
                     self.disable_buttons_medic()
+                    self.app.is_medic = True
                     self.open_choosing_dialog()
-                    self.app.root.get_screen("login_window").manager.transition.direction = "left"
-                    self.app.root.current = "main_window"
                 else:
-                    print("Contraseña incorrecta")
+                    pass
+                    #print("Contraseña incorrecta")
             else:
-                print("El DNI no está registrado")
+                pass
+                #print("El DNI no está registrado")
     
     def disable_buttons_medic(self):
         self.screen = self.app.root.get_screen("data_reading_window")
@@ -430,9 +536,10 @@ class LoginTab(BoxLayout, MDTabsBase):
 
         self.t_screen = self.app.root.get_screen("treatment_window")
         self.t_screen.ids.start_treatment_button.disabled = True
-        self.t_screen.ids.force_to_exert.disabled = False
-        self.t_screen.ids.use_time.disabled = False
-        self.t_screen.ids.finish_time.disabled = False
+        self.t_screen.ids.p1_text_field.disabled = False
+        self.t_screen.ids.p2_text_field.disabled = False
+        self.t_screen.ids.p3_text_field.disabled = False
+        self.t_screen.ids.t_save_button.disabled = False
     
     def open_choosing_dialog(self):
         if not self.patient_dialog:
@@ -460,7 +567,9 @@ class LoginTab(BoxLayout, MDTabsBase):
         self.patient_dialog.open()
     
     def choose_patient(self, num, instance):
-        self.app.current_user_data = self.patients[num]
+        self.app.current_user_data = list(self.patients[num])
+        self.app.root.get_screen("login_window").manager.transition.direction = "left"
+        self.app.root.current = "main_window"
         self.patient_dialog.dismiss()
             
 class RegisterTab(BoxLayout, MDTabsBase):
@@ -483,13 +592,15 @@ class RegisterTab(BoxLayout, MDTabsBase):
             self.ids.user_comorbilities.text,
             self.ids.user_medic_dni.text,
             "[{},{},{}]",
+            "{}",
             "{}"
         ]
 
         if self.confirm_register(): 
             db.new_patient(*self.user_data)
         else:
-            print("Las contraseñas no coinciden")
+            pass
+            #print("Las contraseñas no coinciden")
     
     def confirm_register(self):
         pwd_equal = self.ids.user_password.text == self.ids.user_password_confirmation.text
@@ -509,7 +620,8 @@ class RegisterMedicTab(BoxLayout, MDTabsBase):
         if self.confirm_register(): 
             db.new_medic(*self.medic_data)
         else:
-            print("Las contraseñas no coinciden")
+            pass
+            #print("Las contraseñas no coinciden")
     
     def confirm_register(self):
         pwd_equal = self.ids.medic_password.text == self.ids.medic_password_confirmation.text
@@ -523,6 +635,7 @@ class TaniWasaApp(MDApp): # Hereda los métodos de la clase App de kivy (como ru
     current_user_data = None
     current_sensor_data = None
     current_medic_data = None
+    is_medic = None
 
     def return_main(self):
         self.root.current = "main_window"

@@ -352,6 +352,7 @@ WindowManager:
                     size: Window.width, Window.height
 
                     GridLayout:
+                        id: not_grid
                         cols: 1
                         spacing: 20
                         padding: 10
@@ -419,7 +420,7 @@ WindowManager:
                                 height: "1dp"
 
                             MDLabel:
-                                id: second_not_label
+                                id: third_not_label
                                 text: "Dr. Luis Eduardo Beingolea Cruz:\nRealice nuevamente el 'test de lectura de datos'"
             
             MDBottomNavigationItem:
@@ -570,13 +571,16 @@ WindowManager:
                                     height: "1dp"
 
                                 MDLabel:
+                                    id: medic_name_label
                                     text: "[b]Nombre Completo:[/b]\nDr. Luis Eduardo Beingolea Cruz"
                                     markup: True
                                 MDLabel:
+                                    id: medic_email_label
                                     text: "[b]Correo electrónico:[/b]\nleduardo.cruz@gmail.com"
                                     markup: True
                                 
                                 MDLabel:
+                                    id: medic_phone_label
                                     text: "[b]Teléfono celular:[/b]\n933785293"
                                     markup: True
 
@@ -628,26 +632,37 @@ WindowManager:
                 on_press: root.start_treatment()
             
             MDTextField:
-                id: force_to_exert
-                hint_text: "... N"
-                helper_text: "Presión ejercida"
+                id: p1_text_field
+                hint_text: "... kPa"
+                helper_text: "Presión ejercida en punto 1"
                 required: False
                 disabled: True
 
             MDTextField:
-                id: use_time
-                hint_text: "..."
-                helper_text: "Tiempo de uso"
+                id: p2_text_field
+                hint_text: "... kPa"
+                helper_text: "Presión ejercida en punto 2"
                 required: False
                 disabled: True
             
             MDTextField:
-                id: finish_time
-                hint_text: "..."
-                helper_text: "Hora de finalización"
+                id: p3_text_field
+                hint_text: "... kPa"
+                helper_text: "Presión ejercida en punto 3"
                 required: False
                 disabled: True
-            
+
+            MDFillRoundFlatButton:
+                id: t_save_button
+                text: "[font=Candara]Guardar[/font]"
+                markup: True
+                disabled: True
+                font_size: 16
+                pos_hint: {"center_x": 0.5}
+                md_bg_color: app.theme_cls.primary_dark
+                padding_y: 50
+                on_release: root.save_pressure_data()
+
             Widget:
                 size_hint_y: None
                 height: 150

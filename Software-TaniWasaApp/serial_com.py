@@ -1,5 +1,6 @@
 import serial
 import serial.tools.list_ports
+import time
 
 class SerialCom:
     """Administra todo respecto a la comunicación en serie con pyserial."""
@@ -7,7 +8,7 @@ class SerialCom:
     def __init__(self):
         """Inicializar parámetros de conección."""
         self.arduino_ser = serial.Serial()
-        self.actual_baudrate = 19600
+        self.actual_baudrate = 38400
         self.actual_port = None
         self.actual_pressure_val = ""
         self.update_ports()
@@ -35,7 +36,6 @@ class SerialCom:
         if self.arduino_ser.in_waiting:
             bytes_data = self.arduino_ser.readline()
             str_data = bytes_data.decode('utf').strip()
-            
             if str_data.lower() == "done":
                 return False
             else:
@@ -43,3 +43,6 @@ class SerialCom:
                     data_list.append(float(str_data))
                 self.actual_pressure_val = str_data
                 return True
+        else:
+            time.sleep(0.01)
+            return True

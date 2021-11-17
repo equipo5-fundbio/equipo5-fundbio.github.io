@@ -1,10 +1,10 @@
 import sqlite3
 
-def new_patient(dni, nom, apll, mail, pwd, tel, nac, sex, proc, peso, alt, centro, riss, comorb, med, data, treatment):
+def new_patient(dni, nom, apll, mail, pwd, tel, nac, sex, proc, peso, alt, centro, riss, comorb, med, data, treatment, nots):
     conn = sqlite3.connect('TW.db', timeout=10)
     cursor = conn.cursor()
     
-    conn.execute("INSERT INTO pacientes VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (dni, nom, apll, mail, pwd, tel, nac, sex, proc, peso, alt, centro, riss, comorb, med, data, treatment))
+    conn.execute("INSERT INTO pacientes VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (dni, nom, apll, mail, pwd, tel, nac, sex, proc, peso, alt, centro, riss, comorb, med, data, treatment, nots))
     conn.commit()
     conn.close()
 
@@ -20,11 +20,11 @@ def patient_info(dni):
     #si no está registrado resultado = None
     
 #introducir los nuevos datos
-def edit_patient(dni, nom, apll, mail, pwd, tel, nac, sex, proc, peso, alt, centro, riss, comorb, med, data, treatment):
+def edit_patient(dni, nom, apll, mail, pwd, tel, nac, sex, proc, peso, alt, centro, riss, comorb, med, data, treatment, nots):
     conn = sqlite3.connect('TW.db', timeout=10)
     cursor = conn.cursor()
     
-    cursor.execute("UPDATE pacientes SET Nom = ?, Apll = ?, Mail = ?, Pwd = ?, Tel = ?, Nac = ?, Sex = ?, Proc= ?, Peso = ?, Alt = ?, Centro = ?,Riss = ?, Comorb = ?, Med = ? , Data = ?, Treatment = ? WHERE Dni = ?", (nom, apll, mail, pwd, tel, nac, sex, proc, peso, alt, centro, riss, comorb, med, data, treatment, dni))
+    cursor.execute("UPDATE pacientes SET Nom = ?, Apll = ?, Mail = ?, Pwd = ?, Tel = ?, Nac = ?, Sex = ?, Proc= ?, Peso = ?, Alt = ?, Centro = ?,Riss = ?, Comorb = ?, Med = ? , Data = ?, Treatment = ?, Nots = ? WHERE Dni = ?", (nom, apll, mail, pwd, tel, nac, sex, proc, peso, alt, centro, riss, comorb, med, data, treatment, nots, dni))
     
     conn.commit()
     conn.close()
