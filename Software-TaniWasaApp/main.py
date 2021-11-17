@@ -648,9 +648,10 @@ class TaniWasaApp(MDApp): # Hereda los métodos de la clase App de kivy (como ru
         return kv_file
     
     def on_start(self):
-        self.root.get_screen("login_window").ids.tabs.add_widget(LoginTab(text = "[font=Candara]Iniciar Sesión[/font]"))
-        self.root.get_screen("login_window").ids.tabs.add_widget(RegisterTab(text = "[font=Candara]Registrarse[/font]"))
-        self.root.get_screen("login_window").ids.tabs.add_widget(RegisterMedicTab(text = "[font=Candara]Soy médico[/font]"))
+        self.root.get_screen("login_window").ids.tabs.add_widget(LoginTab(title = "[font=Candara]Iniciar sesión[/font]"))
+        self.root.get_screen("login_window").ids.tabs.add_widget(RegisterTab(title = "[font=Candara]Registrarse[/font]"))
+        self.root.get_screen("login_window").ids.tabs.add_widget(RegisterMedicTab(title = "[font=Candara]Soy médico[/font]"))
+        return super().on_start()
 
 if __name__ == "__main__":
     TaniWasaApp().run() # Llama run sobre una instancia de MyApp
