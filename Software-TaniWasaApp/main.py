@@ -4,7 +4,6 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivymd.uix.tab import MDTabsBase
 from kivy.uix.boxlayout import BoxLayout
 from kivy.core.window import Window
-from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 
 from kivy.clock import Clock
 from serial_com import SerialCom
@@ -26,6 +25,7 @@ from kivymd.uix.button import MDFillRoundFlatIconButton, MDFlatButton
 from kivymd.uix.button import MDFillRoundFlatButton
 from kivymd.uix.textfield import MDTextFieldRect
 from kivymd.uix.label import MDLabel
+from kivy.uix.image import Image
 
 class ConnectItemSelect(TwoLineIconListItem):
     """Administra métodos respecto al diálogo de selección de puerto de comunicación."""
@@ -466,13 +466,13 @@ class DataHistoryWindow(Screen):
         self.ids.graphics_box.clear_widgets()
         self.create_plot()
         box = self.ids.graphics_box
-        box.add_widget(FigureCanvasKivyAgg(plt.gcf()))
+        box.add_widget(Image(source=f'data_graph_{self.app.current_sensor_data}.png'))
 
     def create_plot(self):
         self.app = MDApp.get_running_app()
 
         current_sensor = self.app.current_sensor_data
-        self.ids.data_history_label.text = f"Gráfica presión vs tiempo del punto{current_sensor+1}"
+        self.ids.data_history_label.text = f"Gráfica presión vs tiempo del punto {current_sensor+1}"
         db_data = self.app.current_user_data
         sensor_data_list = json.loads(db_data[15])
         sensor_data = sensor_data_list[current_sensor]
@@ -489,6 +489,7 @@ class DataHistoryWindow(Screen):
 
         plt.ylabel("Presión en kPa")
         plt.xlabel("Tiempo en días")
+        plt.savefig(f'data_graph_{current_sensor}.png', bbox_inches='tight')
 
 class WindowManager(ScreenManager):
     pass
